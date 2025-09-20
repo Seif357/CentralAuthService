@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure
 {
-    internal class AppDBContextcs : Id
+    internal class AppDBContextcs
     {
     }
 }
