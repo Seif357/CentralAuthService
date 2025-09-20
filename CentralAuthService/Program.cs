@@ -19,7 +19,8 @@ namespace CentralAuthService
             builder.Services.AddScoped<IUserService,UsersService>();
 
             var app = builder.Build();
-
+            app.MapOpenApi();
+            app.MapScalarApiReference();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
