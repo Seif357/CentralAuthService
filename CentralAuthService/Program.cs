@@ -20,6 +20,7 @@ namespace CentralAuthService
 
             var app = builder.Build();
             app.UsePathBase("/Scalar");
+            app.MapGet("/", () => Results.Redirect("/Scalar", permanent: true));
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -33,7 +34,7 @@ namespace CentralAuthService
             }
 
             app.UseHttpsRedirection();
-
+            app.UseRouting()
             app.UseAuthorization();
 
 
