@@ -31,7 +31,6 @@
     <Folder Include="Fetures\SessionManagement\CreateSession\" />
     <Folder Include="Fetures\SessionManagement\InvalidateSession\" />
     <Folder Include="Fetures\SessionManagement\ValidateSession\" />
-    <Folder Include="Fetures\User\CreateUser\" />
     <Folder Include="Fetures\User\DeleteUser\" />
     <Folder Include="Fetures\User\GetUserProfile\" />
     <Folder Include="Fetures\User\UpdateProfile\" />
