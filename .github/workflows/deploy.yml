@@ -1,37 +1,50 @@
-name: Deploy to MonsterASP
-
+name: Build, Test, and Deploy to Production
 on:
   push:
     branches:
-      - main   # triggers only when changes land in main (e.g. PR merged)
+      - main
 
 jobs:
-  build-and-deploy:
+  build_test_and_deploy:
     runs-on: windows-latest
-
+    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x' # adjust to your project version
-
+          dotnet-version: '9.0.x'
+          
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+          
       - name: Restore dependencies
         run: dotnet restore
-
-      - name: Build
+        
+      - name: Build application
         run: dotnet build --configuration Release --no-restore
-
-      - name: Publish
-        run: dotnet publish -c Release -o publish
-
-      - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --verbosity normal
+        
+      - name: Publish application
+        run: dotnet publish --configuration Release --output ./publish --runtime win-x86 --self-contained false
+        
+      - name: Deploy to MonsterASP.NET
+        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: publish
-          server-dir: /wwwroot # adjust to your MonsterASP directory
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}          
+      - name: Verify deployment
+        run: |
+          echo "Deployment completed successfully!"
+          echo "Application should be available at: http://centralauthservice.runasp.net/"
