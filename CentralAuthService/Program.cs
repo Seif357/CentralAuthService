@@ -19,10 +19,14 @@ namespace CentralAuthService
             builder.Services.AddScoped<IUserService,UsersService>();
 
             var app = builder.Build();
-            app.MapOpenApi();
-            app.MapScalarApiReference();
+            app.UsePathBase("/Scalar");
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+                app.MapScalarApiReference();
+            }
+            if (!app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
                 app.MapScalarApiReference();
