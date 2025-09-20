@@ -33,7 +33,6 @@ namespace CentralAuthService
             }
 
             app.UseHttpsRedirection();
-            app.UseRouting();
             app.UseAuthorization();
 
 
