@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
@@ -34,6 +33,7 @@
     <Folder Include="Fetures\User\DeleteUser\" />
     <Folder Include="Fetures\User\GetUserProfile\" />
     <Folder Include="Fetures\User\UpdateProfile\" />
+    <Folder Include="Shared\Common\" />
   </ItemGroup>
 
 </Project>
